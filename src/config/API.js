@@ -1,6 +1,6 @@
-export const ENTRYPOINT="http://localhost:8000/api/v1/"
-export const LARAVEL_SGI="http://localhost:8001/api/v1/"
-export const PUBLIC_PATH="http://localhost:8000/"
+export const ENTRYPOINT="https://limitless-basin-67178.herokuapp.com/api/v1/"
+export const LARAVEL_SGI="https://limitless-basin-67178.herokuapp.com/api/v1/"
+export const PUBLIC_PATH="https://limitless-basin-67178.herokuapp.com/"
 
 
 /*

@@ -20,7 +20,6 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import Login from './containers/main/Login'
 import { useHistory } from "react-router-dom";
 import Drawer2 from './components/Drawer2'
-import Panel from './containers/panel/Panel';
 import Categorias from './containers/administracion/categorias'
 import Boxes from './containers/administracion/boxes'
 import Competencias from './containers/administracion/competencias'
