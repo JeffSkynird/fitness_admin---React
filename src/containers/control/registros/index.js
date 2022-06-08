@@ -289,12 +289,17 @@ export default function Sistemas(props) {
                             <Grid item md={12} xs={12}>
 
                                 {
-                                    stepC.step_types.id == 1 ?
-
-                                        <TableRep  setParticipants={setParticipants} participants={participants} ordenar={ordenar}/>
-                                        :
-                                        <TableTiempo setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
+                                       stepC != null &&(
+                                      
+                                            stepC.step_types.id == 1 ?
+        
+                                                <TableRep  setParticipants={setParticipants} participants={participants} ordenar={ordenar}/>
+                                                :
+                                                <TableTiempo setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
+                                       
+                                       )
                                 }
+                               
 
 
                             </Grid>
