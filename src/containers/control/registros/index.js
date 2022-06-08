@@ -83,13 +83,14 @@ export default function Sistemas(props) {
             initializer.mostrarNotificacion({ type: "warning", message: 'Cargue los datos primero' });
             return
         }
-        let resp=[]
-        if(stepC.step_type_id == 2){
-            resp = ordenarTiempo()
-        }else{
-            resp = ordernarNumerico()
+        if(participants.length>0){
+            if(!participants[0].hasOwnProperty('step_id')){
+                initializer.mostrarNotificacion({ type: "warning", message: 'Ordene primero los nuevos cambios' });
+                return 
+            }
         }
-        guardarPuntos({ data: resp }, initializer)
+ 
+        guardarPuntos({ data: participants }, initializer)
     }
     const obtenerPorEvento = (id) => {
         setParticipants([])
