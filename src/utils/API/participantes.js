@@ -273,12 +273,13 @@ const formateador= (data) => {
 
 }
 
-export const obtenerTodosPorEvento = (id,setData,store) => {
+export const obtenerTodosPorEvento = (data,id,setData,store) => {
     const { usuario, mostrarNotificacion, mostrarLoader } = store;
     let url = ENTRYPOINT + "participants_by_event/"+id
     let setting = {
         method: "Get",
         url: url,
+        params:data,
         headers: { 'Accept': 'application/json',
         Authorization: "Bearer " + JSON.parse(desencriptarJson(usuario)).token, }
 

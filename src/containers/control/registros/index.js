@@ -23,7 +23,9 @@ import Filtro from './componentes/Filtro'
 import { Alert, Autocomplete } from '@material-ui/lab';
 import { obtenerPorCompetencia } from '../../../utils/API/steps';
 import { guardarPuntos, obtenerTodosPorEvento } from '../../../utils/API/participantes';
-
+import { obtenerTodos as obtenerCategorias } from '../../../utils/API/category';
+import TableRep from './componentes/TablaRep';
+import TableTiempo from './componentes/TablaTiempo';
 export default function Sistemas(props) {
     const initializer = React.useContext(Initializer);
 
@@ -36,7 +38,8 @@ export default function Sistemas(props) {
     const [event, setEvent] = React.useState("")
     const [eventData, setEventData] = React.useState([])
     const [currentEvent, setCurrentEvent] = React.useState(null)
-
+    const [categoria, setCategoria] = React.useState("")
+    const [categoriaData, setCategoriaData] = React.useState([])
     const [stepData, setStepData] = React.useState([])
     const [step, setStep] = React.useState("")
     const [stepC, setStepC] = React.useState(null)
@@ -50,6 +53,7 @@ export default function Sistemas(props) {
         if (initializer.usuario != null) {
             obtenerTodos(setEventData, initializer)
             obtenerEventoAbierto(setCurrentEvent, initializer)
+            obtenerCategorias(setCategoriaData, initializer)
 
 
         }
@@ -75,23 +79,27 @@ export default function Sistemas(props) {
         return object
     }
     const confirmar = () => {
-        if (participants.length==0) {
+        if (participants.length == 0) {
             initializer.mostrarNotificacion({ type: "warning", message: 'Cargue los datos primero' });
             return
         }
-        guardarPuntos({data:participants}, initializer)
+        guardarPuntos({ data: participants }, initializer)
     }
     const obtenerPorEvento = (id) => {
         setParticipants([])
-        obtenerTodosPorEvento(id, setParticipants, initializer)
+        obtenerTodosPorEvento({ category_id: categoria }, id, setParticipants, initializer)
         setStep(id)
     }
     const cargarValue2 = (val) => {
+        if (categoria == "") {
+            initializer.mostrarNotificacion({ type: "warning", message: 'Elija una categoría' });
+            return
+        }
         obtenerPorEvento(val.id)
         setStepC(val)
-        if(participants.length!=0){
+        if (participants.length != 0) {
             let re = window.confirm("Si cambia de evento sin guardar los datos se perderán, ¿continuar?")
-            if(re==false){
+            if (re == false) {
                 return
             }
         }
@@ -103,7 +111,7 @@ export default function Sistemas(props) {
                         title: 'Nombres',
                         field: 'fullname',
                         editable: 'never'
-        
+
                     },
                     {
                         title: 'Categoría',
@@ -128,14 +136,14 @@ export default function Sistemas(props) {
                     },
                     { editable: 'never', title: "Puntos", field: "score", render: rowData => <span>{rowData.score != null ? rowData.score : "-"}</span> },
                 ])
-            }else{
+            } else {
                 setColumns([
                     { editable: 'never', title: 'RANK', field: 'position', render: rowData => <span>{rowData.position != null ? rowData.position : "-"}</span> },
                     {
                         title: 'Nombres',
                         field: 'fullname',
                         editable: 'never'
-        
+
                     },
                     {
                         title: 'Categoría',
@@ -162,38 +170,43 @@ export default function Sistemas(props) {
                 ])
             }
         }
-       
-    }
-    const ordenar=()=>{
-      //  let ar = participants.slice().sort((a,b) => (Number(b.value) > Number(a.value)) ? 1 : ((Number(a.value) > Number(b.value)) ? -1 : 0))
 
-        let ar = participants.slice().sort(function (a, b){
+    }
+    const ordenar = () => {
+        //  let ar = participants.slice().sort((a,b) => (Number(b.value) > Number(a.value)) ? 1 : ((Number(a.value) > Number(b.value)) ? -1 : 0))
+
+        let ar = participants.slice().sort(function (a, b) {
             return (Number(b.value) - Number(a.value))
         })
         let resp = []
-        let max=100
-    
-        ar.map((e,i)=>{
-            if(ar[i-1]!=null){
-                if(ar[i-1].value==e.value){
-                    max=max
-                }else{
-                    max=max-(i==0?0:1)
-                }
-              
-            }else{
-                max=max-(i==0?0:1)
-            }
-          
-            let temp = 0
-            if(e.point_id!=null){
-                temp = e.total_score-e.score
-            }
-            let total = (Number(e.total_score)+max)
-            
-            resp.push({...e,position:i+1,score:max,total_score:temp!=0?temp:total,step_id:step})
+        let max = 100
+        //DELETE ALL value and total_score in array
+        ar.map((e) => {
+            e.score = null
+            e.total_score = null
         })
-        setParticipants(resp)
+        ar.map((e, i) => {
+            console.log(i)
+             /*    if (ar[i - 1] != null) {
+                if (ar[i - 1].value == e.value) {
+                    max = max
+                } else {
+                    max = max - (i == 0 ? 0 : 1)
+                }
+
+            } else {
+                max = max - (i == 0 ? 0 : 1)
+            } */
+
+            let temp = 0
+            /* if (e.point_id != null) {
+                temp = e.total_score - e.score
+            } */
+            let total = (Number(e.total_score) + max)
+            resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
+            max = max-1
+        })
+       setParticipants(resp)
     }
     return (
         <Grid container spacing={2}>
@@ -222,8 +235,26 @@ export default function Sistemas(props) {
                             <Grid item xs={12} md={12} >
                                 <Alert severity="info">Seleccione los eventos de la competencia actual e ingrese los valores. (Competencia actual abierta: <span style={{ fontWeight: 'bold' }}>{currentEvent != null ? currentEvent.name : 'Ninguna'}</span>) </Alert>
                             </Grid>
-
-                            <Grid item xs={12} md={12} >
+                            <Grid item xs={12} md={6} style={{ display: 'flex' }}>
+                                <Autocomplete
+                                    style={{ width: '100%' }}
+                                    size="small"
+                                    options={categoriaData}
+                                    value={getName(categoria, categoriaData)}
+                                    getOptionLabel={(option) => option.name}
+                                    onChange={(event, value) => {
+                                        if (value != null) {
+                                            setCategoria(value.id)
+                                        } else {
+                                            setCategoria('')
+                                        }
+                                    }} // prints the selected value
+                                    renderInput={params => (
+                                        <TextField {...params} label="Seleccione una categoría" variant="outlined" fullWidth />
+                                    )}
+                                />
+                            </Grid>
+                            <Grid item xs={12} md={6} >
                                 <Autocomplete
                                     size="small"
                                     style={{ width: '100%' }}
@@ -254,86 +285,20 @@ export default function Sistemas(props) {
                                 )
                             }
 
+
                             <Grid item md={12} xs={12}>
 
+                                {
+                                    stepC.step_types.id == 1 ?
 
+                                        <TableRep  setParticipants={setParticipants} participants={participants} ordenar={ordenar}/>
+                                        :
+                                        <TableTiempo setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
+                                }
 
-                                <MaterialTable
-                                    key={1}
-                                    id={1}
-                                    icons={TableIcons}
-                                    columns={columns}
-                                    cellEditable={{
-                                        onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {
-                                            return new Promise((resolve, reject) => {
-                                                setTimeout(() => {
-                                                    if (newValue !== "") {
-
-                                                        const dataUpdate = [...participants];
-                                                        const index = rowData.tableData.id;
-                                                        if(columnDef.field=="value2"){
-                                                            if(dataUpdate[index].value>=15){
-                                                                dataUpdate[index][columnDef.field] = newValue;
-                                                                setParticipants([...dataUpdate]);
-                                                            }else{
-                                                                initializer.mostrarNotificacion({ type: "warning", message: 'El tiempo muerto es menor a 15' });
-                                                            }
-                                                        }else{
-                                                            dataUpdate[index][columnDef.field] = newValue;
-                                                            setParticipants([...dataUpdate]);
-                                                        }
-                                                   
-                                                      
-                                                      
-                                                       
-
-
-                                                    }
-                                                    resolve();
-                                                }, 1000)
-                                            });
-                                        }
-                                    }}
-
-                                    data={
-                                        participants
-                                    }
-                                    title="Participantes"
-
-                                    localization={LocalizationTable}
-                                    actions={[{
-                                        icon: TableIcons.ImportExportIcon,
-                                        tooltip: 'Ordenar',
-                                        isFreeAction: true,
-                                        onClick: (event, rowData) => {
-                                            ordenar()
-                                        }
-                                    }]}
-
-                                    options={{
-                                        pageSize: 10,
-                                        paging: false,
-
-                                        actionsColumnIndex: -1,
-                                        width: '100%',
-                                        maxBodyHeight: 400,
-
-                                        padding: 'dense',
-                                        headerStyle: {
-                                            textAlign: 'left'
-                                        },
-                                        cellStyle: {
-                                            textAlign: 'left'
-                                        },
-                                        searchFieldStyle: {
-
-                                            padding: 5
-                                        }
-                                    }}
-
-                                />
 
                             </Grid>
+ 
 
                         </Grid>
                     </CardContent>
