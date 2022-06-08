@@ -187,7 +187,7 @@ export default function Sistemas(props) {
         })
         ar.map((e, i) => {
             console.log(i)
-             /*    if (ar[i - 1] != null) {
+            if (ar[i - 1] != null) {
                 if (ar[i - 1].value == e.value) {
                     max = max
                 } else {
@@ -196,7 +196,7 @@ export default function Sistemas(props) {
 
             } else {
                 max = max - (i == 0 ? 0 : 1)
-            } */
+            }
 
             let temp = 0
             /* if (e.point_id != null) {
@@ -204,9 +204,9 @@ export default function Sistemas(props) {
             } */
             let total = (Number(e.total_score) + max)
             resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
-            max = max-1
+       
         })
-       setParticipants(resp)
+        setParticipants(resp)
     }
     return (
         <Grid container spacing={2}>
@@ -289,21 +289,21 @@ export default function Sistemas(props) {
                             <Grid item md={12} xs={12}>
 
                                 {
-                                       stepC != null &&(
-                                      
-                                            stepC.step_types.id == 1 ?
-        
-                                                <TableRep  setParticipants={setParticipants} participants={participants} ordenar={ordenar}/>
-                                                :
-                                                <TableTiempo setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
-                                       
-                                       )
+                                    stepC != null && (
+
+                                        stepC.step_types.id == 1 ?
+
+                                            <TableRep setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
+                                            :
+                                            <TableTiempo setParticipants={setParticipants} participants={participants} ordenar={ordenar} />
+
+                                    )
                                 }
-                               
+
 
 
                             </Grid>
- 
+
 
                         </Grid>
                     </CardContent>
