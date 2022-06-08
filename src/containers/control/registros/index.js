@@ -172,9 +172,11 @@ export default function Sistemas(props) {
         }
 
     }
-    const ordenar = () => {
-        //  let ar = participants.slice().sort((a,b) => (Number(b.value) > Number(a.value)) ? 1 : ((Number(a.value) > Number(b.value)) ? -1 : 0))
-
+    const convertTime = (time) => {
+        let timeParts = time.split(":");
+        return (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000);
+    }
+    const ordernarNumerico= () => {
         let ar = participants.slice().sort(function (a, b) {
             return (Number(b.value) - Number(a.value))
         })
@@ -204,8 +206,95 @@ export default function Sistemas(props) {
             } */
             let total = (Number(e.total_score) + max)
             resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
-       
+
         })
+        return resp;
+    }
+    const hmsToSecondsOnly = (str) => {
+        var p = str.split(':'),
+        s = 0, m = 1;
+
+        while (p.length > 0) {
+            s += m * parseInt(p.pop(), 10);
+            m *= 60;
+        }
+
+        return s;
+    }
+    const preguntador=(texto)=>{
+        //el texto tiene /
+        if (texto.indexOf('/') > -1)
+        {
+          return true;
+        }else{
+            return false;
+
+        }
+    }
+    const ordenarTiempo= () => {
+        let ar = participants.slice().sort(function (a, b) {
+            let aRes = a.value=='0'?'16:00':a.value
+            let bRes=b.value=='0'?'16:00':b.value
+            if(preguntador(a.value)){
+                aRes=a.value.split('/')[0]
+            }
+            if(preguntador(b.value)){
+                bRes=b.value.split('/')[0]
+            }
+            return (hmsToSecondsOnly(aRes) - hmsToSecondsOnly(bRes))
+        })
+       let ar2 = ar.sort(function (a, b) {
+
+            if(preguntador(a.value)&&preguntador(b.value)){
+              
+                    return (hmsToSecondsOnly(b.value.split('/')[1]) - hmsToSecondsOnly(a.value.split('/')[1]))
+              
+
+            }
+            
+          
+        })
+        let resp = []
+        let max = 100
+        //DELETE ALL value and total_score in array
+        ar.map((e) => {
+            e.score = null
+            e.total_score = null
+        })
+        ar.map((e, i) => {
+            console.log(i)
+            if (ar[i - 1] != null) {
+                if (ar[i - 1].value == e.value) {
+                    max = max
+                } else {
+                    max = max - (i == 0 ? 0 : 1)
+                }
+
+            } else {
+                max = max - (i == 0 ? 0 : 1)
+            }
+
+            let temp = 0
+            /* if (e.point_id != null) {
+                temp = e.total_score - e.score
+            } */
+            let total = (Number(e.total_score) + max)
+            resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
+
+        })
+        return resp;
+
+    }
+    const ordenar = () => {
+        //  let ar = participants.slice().sort((a,b) => (Number(b.value) > Number(a.value)) ? 1 : ((Number(a.value) > Number(b.value)) ? -1 : 0))
+       
+       let resp=[]
+        if(stepC.step_type_id == 2){
+            resp = ordenarTiempo()
+        }else{
+            resp = ordernarNumerico()
+        }
+        
         setParticipants(resp)
     }
     return (

@@ -26,11 +26,6 @@ export default function TablaTiempo(props) {
             editable: 'never',
         },
         { title: "REP/TIME", field: "value", render: rowData => <span>{rowData.value != null ? rowData.value : "---"}</span> },
-        {
-            title: "REP", field: "value2",
-            render: rowData => <span>{rowData.value2 != null ? rowData.value2 : "---"}</span>,
-            hidden: false
-        },
         { editable: 'never', title: "Puntos", field: "score", render: rowData => <span>{rowData.score != null ? rowData.score : "-"}</span> },
     ]}
     cellEditable={{
