@@ -244,7 +244,7 @@ export default function Crear(props) {
                             icons={TableIcons}
                             columns={[
                                 {
-                                    title: 'Nombre',
+                                    title: 'Denominación',
                                     field: 'name'
                                 },
                                 {
