@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import SearchIcon from '@material-ui/icons/Search';
-import { usePagination, useTable } from 'react-table'
+import { usePagination, useSortBy, useTable } from 'react-table'
 
 import { Box, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, makeStyles, MenuItem, OutlinedInput, Select, TablePagination, Typography, useMediaQuery, useTheme } from '@material-ui/core'
 import { obtenerTodosMonitoreo } from '../../../../utils/API/participantes'
@@ -39,7 +39,9 @@ function Table({ columns, data }) {
       columns,
       data,
       initialState: { pageIndex: 0,pageSize:20 },
-    },
+    }
+    ,
+    useSortBy,
       usePagination)
 
   // Render the UI for your table
@@ -48,9 +50,9 @@ function Table({ columns, data }) {
       <MaUTable {...getTableProps()} style={{ marginTop: 5, overflowX: 'auto', display: matches ? 'block' : 'auto' }} className={classes.table}>
         <TableHead>
           {headerGroups.map(headerGroup => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
+            <TableRow {...headerGroup.getHeaderGroupProps()} >
               {headerGroup.headers.map(column => (
-                <TableCell {...column.getHeaderProps()} align="center">
+                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())} align="center">
                   {column.render('Header')}
                 </TableCell>
               ))}
