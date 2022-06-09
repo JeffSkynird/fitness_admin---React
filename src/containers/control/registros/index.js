@@ -89,8 +89,14 @@ export default function Sistemas(props) {
                 return 
             }
         }
- 
-        guardarPuntos({ data: participants }, initializer)
+        if(stepC!=null){
+            guardarPuntos({ data: participants }, initializer,confirmado)
+        }
+    }
+    const confirmado=()=>{
+       
+            obtenerPorEvento(stepC.id)
+    
     }
     const obtenerPorEvento = (id) => {
         setParticipants([])

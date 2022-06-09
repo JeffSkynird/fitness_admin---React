@@ -104,7 +104,7 @@ export const registrar = (data, store,carga) => {
             mostrarNotificacion({ type: "error", message: error.message });
         });
 }
-export const guardarPuntos = (data, store) => {
+export const guardarPuntos = (data, store,confirmado) => {
     const { usuario, mostrarNotificacion, mostrarLoader } = store;
 
     let url = ENTRYPOINT + "save_points";
@@ -127,6 +127,7 @@ export const guardarPuntos = (data, store) => {
 
                 mostrarLoader(false);
                 mostrarNotificacion({ type: "success", message: response.message });
+                confirmado()
             } else {
                 mostrarNotificacion({ type: "error", message: response.message });
                 mostrarLoader(false);
