@@ -25,7 +25,7 @@ export default function TablaTiempo(props) {
                     field: 'total_score', render: rowData => (<span>{Number(rowData.total_score)}</span>),
                     editable: 'never',hidden:true
                 },
-                { title: "REP/TIME", field: "value", render: rowData => <span>{rowData.value != null ? rowData.value : "---"}</span> },
+                { title: "REP/PESO", field: "value", render: rowData => <span>{rowData.value != null ? rowData.value : "---"}</span> },
                 {
                     title: "REP", field: "value2",
                     render: rowData => <span>{rowData.value2 != null ? rowData.value2 : "---"}</span>,
