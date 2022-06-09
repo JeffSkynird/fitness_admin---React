@@ -68,6 +68,13 @@ export default function TablaTiempo(props) {
     localization={LocalizationTable}
     actions={[{
         icon: TableIcons.ImportExportIcon,
+        iconProps: {
+            style: {
+                color: 'red',
+                backgroundColor: 'red',
+                fontSize: '20px'
+            }
+        },
         tooltip: 'Ordenar',
         isFreeAction: true,
         onClick: (event, rowData) => {
@@ -78,7 +85,9 @@ export default function TablaTiempo(props) {
     options={{
         pageSize: 10,
         paging: false,
-        
+        actionsCellStyle: {
+            color:'red'
+        },
         actionsColumnIndex: -1,
         width: '100%',
         maxBodyHeight: 400,

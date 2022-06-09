@@ -74,6 +74,12 @@ export default function TablaTiempo(props) {
             actions={[{
                 icon: TableIcons.ImportExportIcon,
                 tooltip: 'Ordenar',
+                iconProps: {
+                    style: {
+                        color: 'red',
+                        fontSize: '20px'
+                    }
+                },
                 isFreeAction: true,
                 onClick: (event, rowData) => {
                     ordenar()

@@ -218,7 +218,7 @@ export default function Sistemas(props) {
                 temp = e.total_score - e.score
             } */
             let total = (Number(e.total_score) + max)
-            resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
+            resp.push({ ...e, position: i + 1, score: e.value==0?0:max, total_score: e.value==0?0:total, step_id: step })
 
         })
         return resp;
@@ -291,8 +291,7 @@ export default function Sistemas(props) {
                 temp = e.total_score - e.score
             } */
             let total = (Number(e.total_score) + max)
-            resp.push({ ...e, position: i + 1, score: max, total_score: temp != 0 ? temp : total, step_id: step })
-
+            resp.push({ ...e, position: i + 1, score: e.value==0?0:max, total_score: e.value==0?0:total, step_id: step })
         })
         return resp;
 
