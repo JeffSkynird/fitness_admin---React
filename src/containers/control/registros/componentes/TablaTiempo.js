@@ -9,7 +9,7 @@ export default function TablaTiempo(props) {
     <MaterialTable
     icons={TableIcons}
     columns={[
-        { editable: 'never', title: 'RANK',type:"numeric", field: 'position', render: rowData => <span>{rowData.position != null ? rowData.position : "-"}</span> },                                        {
+        { defaultSort:"asc",editable: 'never', title: 'RANK',type:"numeric", field: 'position', render: rowData => <span>{rowData.position != null ? rowData.position : "-"}</span> },                                        {
             title: 'Nombres',
             field: 'fullname',
             editable: 'never'
@@ -23,10 +23,10 @@ export default function TablaTiempo(props) {
         {
             title: 'Total',
             field: 'total_score', render: rowData => (<span>{Number(rowData.total_score)}</span>),
-            editable: 'never',
+            editable: 'never',hidden:true
         },
         { title: "REP/TIME", field: "value", render: rowData => <span>{rowData.value != null ? rowData.value : "---"}</span> },
-        { editable: 'never', title: "Puntos", field: "score", render: rowData => <span>{rowData.score != null ? rowData.score : "-"}</span> },
+        { editable: 'never', title: "Puntos", field: "score", render: rowData => <span>{rowData.score != null ? Number(rowData.score) : "-"}</span> },
     ]}
     cellEditable={{
         onCellEditApproved: (newValue, oldValue, rowData, columnDef) => {

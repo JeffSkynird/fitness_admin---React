@@ -83,20 +83,20 @@ export default function Sistemas(props) {
             initializer.mostrarNotificacion({ type: "warning", message: 'Cargue los datos primero' });
             return
         }
-        if(participants.length>0){
-            if(!participants[0].hasOwnProperty('step_id')){
+        if (participants.length > 0) {
+            if (!participants[0].hasOwnProperty('step_id')) {
                 initializer.mostrarNotificacion({ type: "warning", message: 'Ordene primero los nuevos cambios' });
-                return 
+                return
             }
         }
-        if(stepC!=null){
-            guardarPuntos({ data: participants }, initializer,confirmado)
+        if (stepC != null) {
+            guardarPuntos({ data: participants }, initializer, confirmado)
         }
     }
-    const confirmado=()=>{
-       
-            obtenerPorEvento(stepC.id)
-    
+    const confirmado = () => {
+
+        obtenerPorEvento(stepC.id)
+
     }
     const obtenerPorEvento = (id) => {
         setParticipants([])
@@ -189,7 +189,7 @@ export default function Sistemas(props) {
         let timeParts = time.split(":");
         return (+timeParts[0] * (60000 * 60)) + (+timeParts[1] * 60000);
     }
-    const ordernarNumerico= () => {
+    const ordernarNumerico = () => {
         let ar = participants.slice().sort(function (a, b) {
             return (Number(b.value) - Number(a.value))
         })
@@ -225,7 +225,7 @@ export default function Sistemas(props) {
     }
     const hmsToSecondsOnly = (str) => {
         var p = str.split(':'),
-        s = 0, m = 1;
+            s = 0, m = 1;
 
         while (p.length > 0) {
             s += m * parseInt(p.pop(), 10);
@@ -234,38 +234,37 @@ export default function Sistemas(props) {
 
         return s;
     }
-    const preguntador=(texto)=>{
+    const preguntador = (texto) => {
         //el texto tiene /
-        if (texto.indexOf('/') > -1)
-        {
-          return true;
-        }else{
+        if (texto.indexOf('/') > -1) {
+            return true;
+        } else {
             return false;
 
         }
     }
-    const ordenarTiempo= () => {
+    const ordenarTiempo = () => {
         let ar = participants.slice().sort(function (a, b) {
-            let aRes = a.value=='0'?'16:00':a.value
-            let bRes=b.value=='0'?'16:00':b.value
-            if(preguntador(a.value)){
-                aRes=a.value.split('/')[0]
+            let aRes = a.value == '0' ? '16:00' : a.value
+            let bRes = b.value == '0' ? '16:00' : b.value
+            if (preguntador(a.value)) {
+                aRes = a.value.split('/')[0]
             }
-            if(preguntador(b.value)){
-                bRes=b.value.split('/')[0]
+            if (preguntador(b.value)) {
+                bRes = b.value.split('/')[0]
             }
             return (hmsToSecondsOnly(aRes) - hmsToSecondsOnly(bRes))
         })
-       let ar2 = ar.sort(function (a, b) {
+        let ar2 = ar.sort(function (a, b) {
 
-            if(preguntador(a.value)&&preguntador(b.value)){
-              
-                    return (hmsToSecondsOnly(b.value.split('/')[1]) - hmsToSecondsOnly(a.value.split('/')[1]))
-              
+            if (preguntador(a.value) && preguntador(b.value)) {
+
+                return (hmsToSecondsOnly(b.value.split('/')[1]) - hmsToSecondsOnly(a.value.split('/')[1]))
+
 
             }
-            
-          
+
+
         })
         let resp = []
         let max = 100
@@ -300,14 +299,14 @@ export default function Sistemas(props) {
     }
     const ordenar = () => {
         //  let ar = participants.slice().sort((a,b) => (Number(b.value) > Number(a.value)) ? 1 : ((Number(a.value) > Number(b.value)) ? -1 : 0))
-       
-       let resp=[]
-        if(stepC.step_type_id == 2){
+
+        let resp = []
+        if (stepC.step_type_id == 2) {
             resp = ordenarTiempo()
-        }else{
+        } else {
             resp = ordernarNumerico()
         }
-        
+
         setParticipants(resp)
     }
     return (
