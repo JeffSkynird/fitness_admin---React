@@ -21,7 +21,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { iniciarSesion } from '../../utils/API/auth';
 import { makeStyles } from '@material-ui/core';
 
-import f1 from '../../assets/images/f5.jpg'
+import f1 from '../../assets/images/011.png'
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),

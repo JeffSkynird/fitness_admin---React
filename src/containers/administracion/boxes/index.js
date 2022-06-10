@@ -56,7 +56,7 @@ export default function Sistemas(props) {
 
             <Grid item xs={12} md={12} style={{display:'flex',justifyContent:'space-between'}}>
                 <Typography variant="h5" >
-                    Boxes
+                    Box
                 </Typography>
                 <Button onClick={() => setOpen(true)} startIcon={<AddIcon />} variant="contained" color="primary">
                         Nuevo

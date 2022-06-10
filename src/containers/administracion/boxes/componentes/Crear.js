@@ -59,10 +59,10 @@ export default function Crear(props) {
             aria-labelledby="alert-dialog-slide-title"
             aria-describedby="alert-dialog-slide-description"
         >
-            <DialogTitle id="alert-dialog-slide-title">Boxes</DialogTitle>
+            <DialogTitle id="alert-dialog-slide-title">Box</DialogTitle>
             <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                    {props.sistema != null ? "Formulario de edición de boxes" : "Formulario de creación de boxes"}
+                    {props.sistema != null ? "Formulario de edición de box" : "Formulario de creación de box"}
                 </DialogContentText>
 
                 <Grid container spacing={2}>

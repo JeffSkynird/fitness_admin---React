@@ -278,7 +278,7 @@ function ResponsiveDrawer(props) {
                                 <ListItemIcon>
                                     <HomeWorkIcon />
                                 </ListItemIcon>
-                                <ListItemText primary="Boxes" />
+                                <ListItemText primary="Box" />
                             </ListItem>
                             <ListItem button className={classes.nested} onClick={() => props.history.push('/administracion/categorias')} >
                                 <ListItemIcon>

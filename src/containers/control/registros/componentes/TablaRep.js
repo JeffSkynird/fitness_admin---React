@@ -17,7 +17,7 @@ export default function TablaTiempo(props) {
                 },
                 {
                     title: 'Box',
-                    field: 'boxes', render: rowData => (<span>{rowData.boxes.name}</span>),
+                    field: 'box',
                     editable: 'never'
                 },
                 {

@@ -263,6 +263,7 @@ const formateador= (data) => {
     data.map((e)=>{
         ar.push({
             ...e,
+            box: e.boxes.name.toUpperCase(),
             score:e.points.length!=0?e.points[0].score:null,
             position:e.points.length!=0?e.points[0].position:null,
             value:e.points.length!=0?e.points[0].value:null,

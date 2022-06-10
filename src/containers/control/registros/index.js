@@ -133,7 +133,7 @@ export default function Sistemas(props) {
                     },
                     {
                         title: 'Box',
-                        field: 'boxes', render: rowData => (<span>{rowData.boxes.name}</span>),
+                        field: 'box', render: rowData => (<span>{rowData.boxes.name}</span>),
                         editable: 'never'
                     },
                     {
