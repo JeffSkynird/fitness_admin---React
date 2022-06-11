@@ -65,6 +65,8 @@ import QueryBuilderIcon from '@material-ui/icons/QueryBuilder';
 import SportsKabaddiIcon from '@material-ui/icons/SportsKabaddi';
 import CategoryIcon from '@material-ui/icons/Category';
 import TimelineIcon from '@material-ui/icons/Timeline';
+
+import f1 from '../assets/images/011.png'
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -226,7 +228,7 @@ function ResponsiveDrawer(props) {
     const drawer = (
         <div >
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
-                <Avatar size="" className={classes.avatar} src={logo}>
+                <Avatar size="" className={classes.avatar} src={f1}>
 
                 </Avatar>
                 <Typography variant="subtitle1" style={{ fontSize: 15, color: '#929396' }}>

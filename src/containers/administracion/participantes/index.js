@@ -94,11 +94,11 @@ export default function Sistemas(props) {
                     icons={TableIcons}
                     columns={[
                       
-                        { title: "Nombre", render: rowData => <span>{rowData.people.names}</span> },
-                        { title: "Apellidos", render: rowData => <span>{rowData.people.last_names}</span> },
-                        { title: "Categoría", render: rowData => <span>{rowData.categories.name}</span> },
-                        { title: "Box", render: rowData => <span>{rowData.boxes.name}</span> },
-                        { title: "Competencia", render: rowData => <span>{rowData.events.name}</span> },
+                        { title: "Nombre",field:'people.names' },
+                        { title: "Apellidos",field:'people.last_names'},
+                        { title: "Categoría",field:"categories.name"},
+                        { title: "Box", field:"boxes.name" },
+                        { title: "Competencia", field:"events.name" },
                         { title: "Registro", field: "created_at", type: "datetime" },
 
 
