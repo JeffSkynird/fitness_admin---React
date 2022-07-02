@@ -188,12 +188,13 @@ export const obtenerPorCompetencia = (id, setData, store) => {
 
         });
 }
-export const obtenerTodosMonitoreo = (setData) => {
+export const obtenerTodosMonitoreo = (setData,isFinal) => {
 
     let url = ENTRYPOINT + "open_steps"
     let setting = {
         method: "Get",
         url: url,
+        params: {is_final:isFinal},
         headers: { 'Accept': 'application/json' }
 
     };

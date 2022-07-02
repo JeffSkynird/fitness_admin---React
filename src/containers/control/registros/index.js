@@ -47,12 +47,15 @@ export default function Sistemas(props) {
     const [participants, setParticipants] = React.useState([])
     const [typeRep, setTypeRep] = React.useState(true)
 
+    const [competencias, setCompetencias] = React.useState([])
+    const [competencia, setCompetencia] = React.useState('')
+    const [competenciaC, setCompetenciaC] = React.useState(null)
 
     const [columns, setColumns] = React.useState()
     React.useEffect(() => {
         if (initializer.usuario != null) {
-            obtenerTodos(setEventData, initializer)
-            obtenerEventoAbierto(setCurrentEvent, initializer)
+            obtenerTodos(setCompetencias, initializer)
+           // obtenerEventoAbierto(setCurrentEvent, initializer)
             obtenerCategorias(setCategoriaData, initializer)
 
 
@@ -60,10 +63,10 @@ export default function Sistemas(props) {
     }, [initializer.usuario])
 
     React.useEffect(() => {
-        if (currentEvent != null) {
-            obtenerPorCompetencia(currentEvent.id, setStepData, initializer)
+        if (competenciaC != null) {
+            obtenerPorCompetencia(competenciaC.id, setStepData, initializer)
         }
-    }, [currentEvent])
+    }, [competenciaC])
     const carga = () => {
         obtenerTodos(setData, initializer)
         setSelected(null)
@@ -333,7 +336,28 @@ export default function Sistemas(props) {
                         </Typography>
                         <Grid container spacing={2}>
                             <Grid item xs={12} md={12} >
-                                <Alert severity="info">Seleccione los eventos de la competencia actual e ingrese los valores. (Competencia actual abierta: <span style={{ fontWeight: 'bold' }}>{currentEvent != null ? currentEvent.name : 'Ninguna'}</span>) </Alert>
+                                <Alert severity="info">Seleccione los eventos de la competencia actual e ingrese los valores. (Competencia actual activa: <span style={{ fontWeight: 'bold' }}>{competencia != null ? competencia.name : 'Ninguna'}</span>) </Alert>
+                            </Grid>
+                            <Grid item xs={12} md={12} style={{ display: 'flex' }}>
+                                <Autocomplete
+                                    style={{ width: '100%' }}
+                                    size="small"
+                                    options={competencias}
+                                    value={getName(competencia, competencias)}
+                                    getOptionLabel={(option) => option.name}
+                                    onChange={(event, value) => {
+                                        if (value != null) {
+                                            setCompetencia(value.id)
+                                            setCompetenciaC(value)
+                                        } else {
+                                            setCompetencia('')
+                                            setCompetenciaC(null)
+                                        }
+                                    }} // prints the selected value
+                                    renderInput={params => (
+                                        <TextField {...params} label="Seleccione una competencia" variant="outlined" fullWidth />
+                                    )}
+                                />
                             </Grid>
                             <Grid item xs={12} md={6} style={{ display: 'flex' }}>
                                 <Autocomplete

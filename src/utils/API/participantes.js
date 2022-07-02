@@ -162,15 +162,17 @@ const formater = (data) => {
     })
     return array
 }
-export const obtenerTodosMonitoreo = (setData,setData2,filter) => {
+export const obtenerTodosMonitoreo = (setData,setData2,filter,isFinal) => {
 
   
     let url = ENTRYPOINT + "participants"
     let setting = {
         method: "Get",
         url: url,
+
         params:{
-            category_id:filter
+            category_id:filter,
+            is_final:isFinal
         },
         headers: { 'Accept': 'application/json' }
 

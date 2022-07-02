@@ -8,12 +8,11 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import SearchIcon from '@material-ui/icons/Search';
 import { usePagination, useSortBy, useTable } from 'react-table'
-
-import { Box, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, makeStyles, MenuItem, OutlinedInput, Select, TablePagination, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import LinearProgress from '@material-ui/core/LinearProgress';
+import { Box, FormControl, Grid, IconButton, Input, InputAdornment, InputLabel, makeStyles, MenuItem, OutlinedInput, Select, TablePagination, Typography, useMediaQuery, useTheme, withStyles } from '@material-ui/core'
 import { obtenerTodosMonitoreo } from '../../../../utils/API/participantes'
-import { obtenerTodosMonitoreo as obtenerTodosEvents } from '../../../../utils/API/steps'
+import { obtenerTodosMonitoreo as obtenerTodosEvents  } from '../../../../utils/API/steps'
 import { obtenerTodos as obtenerTodosCategories } from '../../../../utils/API/category'
-
 const useStyles = makeStyles({
   table: {
 
@@ -22,6 +21,13 @@ const useStyles = makeStyles({
     }
   }
 });
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
 function Table({ columns, data }) {
   const theme = useTheme();
   const classes = useStyles();
@@ -39,20 +45,19 @@ function Table({ columns, data }) {
       columns,
       data,
       initialState: { pageIndex: 0,pageSize:20 },
-    }
-    ,
+    },
     useSortBy,
       usePagination)
 
   // Render the UI for your table
   return (
     <div>
-      <MaUTable {...getTableProps()} style={{ marginTop: 5, overflowX: 'auto', display: matches ? 'block' : 'auto' }} className={classes.table}>
+      <MaUTable {...getTableProps()} style={{ marginTop: 5, overflowX: 'auto', display: matches ? 'block' : 'auto' }} className={classes.table} >
         <TableHead>
           {headerGroups.map(headerGroup => (
-            <TableRow {...headerGroup.getHeaderGroupProps()} >
+            <TableRow {...headerGroup.getHeaderGroupProps()} style={{padding:0,}}>
               {headerGroup.headers.map(column => (
-                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())} align="center">
+                <TableCell {...column.getHeaderProps(column.getSortByToggleProps())} align="center" style={{ borderLeft: '1.6px solid rgba(224, 224, 224, 1)' ,cursor:'pointer'}}>
                   {column.render('Header')}
                 </TableCell>
               ))}
@@ -63,15 +68,16 @@ function Table({ columns, data }) {
           {page.map((row, i) => {
             prepareRow(row)
             return (
-              <TableRow {...row.getRowProps()}>
+              <StyledTableRow {...row.getRowProps()}>
                 {row.cells.map(cell => {
+                  console.log(cell.column.id=="num")
                   return (
-                    <TableCell {...cell.getCellProps()} >
-                      {cell.render('Cell')}
+                    <TableCell {...cell.getCellProps()} style={{padding:14}}>
+                      {cell.render('Cell')}{(cell.column.Header=="RANK"&&cell.column.id!="num")?'°':''}{cell.column.Header=="POINTS"?' pts':''} 
                     </TableCell>
                   )
                 })}
-              </TableRow>
+              </StyledTableRow>
             )
           })}
         </TableBody>
@@ -131,14 +137,12 @@ function App() {
   }])
 
 
-
   React.useEffect(() => {
-    
-      obtenerTodosMonitoreo(setDatos, setDatosResp, 1,false)
-      obtenerTodosEvents(setDatos2,false)
-      obtenerTodosCategories(setCategoryData)
- 
-}, [])
+    obtenerTodosMonitoreo(setDatos, setDatosResp, 1,true)
+    obtenerTodosEvents(setDatos2,true)
+    obtenerTodosCategories(setCategoryData)
+  }, [])
+
   React.useEffect(() => {
     if (datos2.length > 0) {
       let temp = [
@@ -167,8 +171,7 @@ function App() {
       datos2.map(event => {
         temp.push(event)
       })
-      console.log("EJECUTANDOSE")
-      console.log(temp)
+
       setColumns(temp)
     }
   }, [datos2])
@@ -181,16 +184,16 @@ function App() {
     setDatos(temp)
   }
   const searchByCategory = (cat) => {
-    obtenerTodosMonitoreo(setDatos, setDatosResp, cat,false)
+    obtenerTodosMonitoreo(setDatos, setDatosResp, cat,true)
     setCategory(cat)
   }
   return (
-    <Box mt={3}>
+    <Box mt={3} mb={3} p={3}>
 
 
       <Grid container spacing={2} style={{ paddingLeft: 5, paddingRight: 5 }}>
         <Grid item xs={12}>
-          <Typography variant="h4" color="initial" style={{ fontWeight: 'bold' }}>OPEN LEADERBOARD</Typography>
+          <Typography variant="h4" color="initial" style={{ fontWeight: 'bold' }}>FINAL LEADERBOARD</Typography>
         </Grid>
         <Grid item xs={6}>
           <FormControl variant='outlined' style={{ width: '100%' }} size="small">

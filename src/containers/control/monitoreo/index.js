@@ -15,12 +15,13 @@ import Initializer from '../../../store/Initializer'
 
 import { LocalizationTable, TableIcons, removeAccent } from '../../../utils/table.js'
 import MaterialTable from "material-table";
-import { Grid } from '@material-ui/core';
+import { Grid,Chip } from '@material-ui/core';
 import { obtenerTodos } from '../../../utils/API/bodegas.js';
 import Crear from './componentes/Crear'
 import Eliminar from './componentes/Eliminar'
 import Filtro from './componentes/Filtro'
 import Table from './componentes/Table'
+import TableFinal from '../final'
 export default function Sistemas(props) {
     const initializer = React.useContext(Initializer);
 
@@ -50,12 +51,18 @@ export default function Sistemas(props) {
     }
     return (
         <Grid container spacing={1}>
-            <Crear sistema={selected} setSelected={setSelected} setOpen={setOpen} open={open} carga={carga} />
-            <Eliminar sistema={selected2} setOpen={setOpen2} open={open2} carga={carga} />
-            <Filtro setOpen={setOpenFilter} open={openFilter} />
-
             <Grid item xs={12}>
-                <Table />
+                 <Chip label="Open" onClick={() => setOpen(true)} style={{marginRight:5}} />
+                <Chip label="Finales"  onClick={() => setOpen(false)} style={{marginRight:5}}  />
+            </Grid>
+            <Grid item xs={12}>
+                {
+                    open==true?
+                    <Table />
+                    :
+                    <TableFinal />
+                }
+              
             </Grid>
         </Grid>
     )
