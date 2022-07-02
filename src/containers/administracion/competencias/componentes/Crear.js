@@ -36,6 +36,8 @@ export default function Crear(props) {
     const [endDate, setEndDate] = React.useState(new Date())
     const [description, setDescription] = React.useState("")
     const [isOpen, setIsOpen] = React.useState(false)
+    const [isFinal, setIsFinal] = React.useState(false)
+
     const [steps, setSteps] = React.useState([])
     const [tipoEtapa, setTipoEtapa] = React.useState("")
     const [tipoEtapaC, setTipoEtapaC] = React.useState(null)
@@ -55,6 +57,7 @@ export default function Crear(props) {
             setIsOpen(props.sistema.is_open)
             setDescription(props.sistema.description)
             setSteps(formatData(props.sistema.steps))
+            setIsFinal(props.sistema.is_final)
         }
     }, [props.sistema])
     const obtenerNombre = (id) => {
@@ -82,7 +85,8 @@ export default function Crear(props) {
             'end_date': endDate,
             'is_open': isOpen,
             'description': description,
-            'steps': steps
+            'steps': steps,
+            'is_final': isFinal
         }
         if (props.sistema == null) {
             registrar(data, initializer, limpiar)
@@ -174,10 +178,16 @@ export default function Crear(props) {
 
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={6}>
                         <FormControlLabel
                             control={<Checkbox checked={isOpen} onChange={()=>setIsOpen(!isOpen)} />}
-                            label="¿Esta abierta?"
+                            label="¿Esta activa?"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <FormControlLabel
+                            control={<Checkbox checked={isFinal} onChange={()=>setIsFinal(!isFinal)} />}
+                            label="¿Es final?"
                         />
                     </Grid>
                     <Grid item md={6} xs={12}>

@@ -85,7 +85,8 @@ export default function Sistemas(props) {
                         { title: "Descripción", field: "description" },
                         { title: "Fecha inicio", field: "start_date", type: "date" },
                         { title: "Fecha fin", field: "end_date", type: "date" },
-                        { title: "Abierto", field: "is_open", type: "boolean" },
+                        { title: "Activa", field: "is_open", type: "boolean" },
+                        { title: "Es final", field: "is_final", type: "boolean" },
                         { title: "Registro", field: "created_at", type: "datetime" },
 
 
