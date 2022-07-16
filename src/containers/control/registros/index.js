@@ -103,7 +103,7 @@ export default function Sistemas(props) {
     }
     const obtenerPorEvento = (id) => {
         setParticipants([])
-        obtenerTodosPorEvento({ category_id: categoria }, id, setParticipants, initializer)
+        obtenerTodosPorEvento({ category_id: categoria,event_id:competencia }, id, setParticipants, initializer)
         setStep(id)
     }
     const cargarValue2 = (val) => {
@@ -203,17 +203,18 @@ export default function Sistemas(props) {
             e.score = null
             e.total_score = null
         })
+        console.log(stepC.time_limit)
         ar.map((e, i) => {
             console.log(i)
             if (ar[i - 1] != null) {
                 if (ar[i - 1].value == e.value) {
                     max = max
                 } else {
-                    max = max - (i == 0 ? 0 : 1)
+                    max = max - (i == 0 ? 0 : stepC.time_limit)
                 }
 
             } else {
-                max = max - (i == 0 ? 0 : 1)
+                max = max - (i == 0 ? 0 : stepC.time_limit)
             }
 
             let temp = 0
@@ -248,8 +249,8 @@ export default function Sistemas(props) {
     }
     const ordenarTiempo = () => {
         let ar = participants.slice().sort(function (a, b) {
-            let aRes = a.value == '0' ? '16:00' : a.value
-            let bRes = b.value == '0' ? '16:00' : b.value
+            let aRes = a.value == '0' ? '60:00' : a.value
+            let bRes = b.value == '0' ? '60:00' : b.value
             if (preguntador(a.value)) {
                 aRes = a.value.split('/')[0]
             }
@@ -276,17 +277,18 @@ export default function Sistemas(props) {
             e.score = null
             e.total_score = null
         })
+        console.log(stepC.time_limit)
         ar.map((e, i) => {
-            console.log(i)
+            
             if (ar[i - 1] != null) {
                 if (ar[i - 1].value == e.value) {
                     max = max
                 } else {
-                    max = max - (i == 0 ? 0 : 1)
+                    max = max - (i == 0 ? 0 : stepC.time_limit)
                 }
 
             } else {
-                max = max - (i == 0 ? 0 : 1)
+                max = max - (i == 0 ? 0 : stepC.time_limit)
             }
 
             let temp = 0
